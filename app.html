@@ -1,0 +1,167 @@
+<!--
+ *  NBC News Digital Bot - Media Labs 
+ *  @license NBC Universal © 2017 All rights reserved.
+ *  CONFIDENTIAL. Use, copy or distribution of this software is strictly prohibited without appropiate written permition.
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="robots"   content="none">
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+    <title>NBCU News Digital Bot</title>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://framework7.io/dist/css/framework7.ios.min.css">
+    <link href="css/style.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <header>
+    <article class="logo">
+        <img src="img/nbcnewsdigital.svg">
+    </article>
+    <article>
+        <nav>
+        <ul>
+            <div class="top-videos-wrap">
+                <h1 class="hdr-title title"></h1>
+                <span class="detail last-updated"></span>
+            </div>
+            <li class="dropdown">
+                <a href="#" class="drop-arrow"></a>
+                <ul class="sub-menu">
+                    <li><a href="#" class="a-top-videos">Top Videos</a></li>
+                    <li><a href="#" class="a-top-articles">Top Articles</a></li>
+<!--                     <li><a href="#" class="a-top-following">Following</a></li> -->
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    </article>
+    <article class="stats">
+        <div class="views">
+            <div class="number totalviews">
+            </div>
+            <div class="caption today-switch"></div>
+        </div>
+        <div class="growth" ng-show="top10.loaded">
+            <div class="percent ng-binding random-prcent">
+                <span id="trend" class="increasing">
+                </span> 
+            </div>
+            <div class="caption">
+                vs. past 24 hours
+            </div>
+        </div>
+    </article>
+</header>
+        <div id="preloader-main"></div>
+        <div id="preloader"></div>
+        <article class="elements">
+        <script id="feedtempl" type="text/x-handlebars-template">
+        {{#each this}}
+        <div class="template {{type}}">
+        <div class="popup-news" lightbox="{{url}}"></div>
+            <div class="position column">
+                <div id="video-0-position" class="number">
+                     {{addOne @index}}
+                </div>
+            </div>
+            <div class="{{brand}} brandLogo"></div>
+            <div class="{{brand}}-article"></div>
+            <div class="column thumbnail">
+                <img id="video-0-producer" src="{{thumbnail}}" class="image">
+            </div>
+            <div class="info column">
+                <div class="details row">
+                    <div id="video-0-since" class="since detail">
+                        <time class="timeago" datetime="{{time}}"></time>
+                    </div>
+                    <div id="video-1-platform" class="platform detail {{platforms}}">
+                        {{platforms}}
+                    </div>
+                    <div id="video-0-15min" class="mins detail ng-binding">
+                        {{starts}}
+                        <div id="video-0-trend" class="trend {{updown clicks}}">
+                        </div>
+                        <span class="caption dark">
+                            / 15 mins
+                        </span>
+                    </div>
+                    <div id="video-0-24hrs" class="hrs detail">
+                        {{totalViews}}
+                        <span class="dark">
+                            / 24 hrs
+                        </span>
+                    </div>
+                </div>
+                <div id="video-0-name" class="name">
+                   {{name}}
+                </div>
+            </div>
+        </div>
+        {{/each}}
+        </script>
+    </article>
+</section>
+<div class="chat-interface-wrapper">
+<!-- Framework 7 Chat UI -->
+<div class="chatMenu">
+    <div class="page">
+        <div class="page-content messages-content">
+            <div class="messages"></div>
+        </div>
+    </div>
+</div>
+    <ul class="chat-panel messagebar">
+        <li class="chat-menu"></li>
+        <li><textarea id="input" class="chat-textarea" placeholder="Ask anything here_" spellcheck="false" data-gramm_editor="true"></textarea></li>
+        <li><button class="chat-send-btn" type="button">send</button></li>
+        <li class="chat-mic" id="rec"></li>
+    </ul>
+</div>
+  </body>
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://framework7.io/dist/js/framework7.min.js"></script>
+<script src="js/jquery.timeago.js"></script>
+<script src="js/chat.js" type="text/javascript"></script>
+<script src="js/handlebars-v4.0.5.js" type="text/javascript"></script>
+<script src="js/app.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+
+    // if (navigator.userAgent.indexOf("iPad") > -1) {
+    //         $('.TODAY').css('display','none');
+    // }
+
+    window.addEventListener("orientationchange", function() {
+
+        var iPad = navigator.userAgent.match(/iPad/i) != null;
+
+        if (iPad){
+
+            if (window.orientation == "90" || window.orientation == "-90") {
+                  $('#preloader-main').fadeOut('slow',function(){$(this).remove();});
+            }else {
+                  var orientation = 'portrait';
+                  $('body').append('<div id="preloader-main"></div>');
+
+            }
+        }
+        else if(!iPad)//iphone portraite
+        {
+            if (window.orientation == "90" || window.orientation == "-90") {
+                //iphone landscape
+                  $('body').append('<div id="preloader-main"></div>');
+            }else {
+                  var orientation = 'portrait';
+                  $('#preloader-main').fadeOut('slow',function(){$(this).remove();});
+            }
+        }
+    }, false);
+</script>
+</html>
